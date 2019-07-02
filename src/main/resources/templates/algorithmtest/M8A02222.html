@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" href="../project/algorithmtest/css/M8A.css">
+
+</head>
+<body>
+<div class="panel panel-primary mg10">
+    <div class="panel-heading h30 bg00F7DE">资产实际利率试算</div>
+    <div class="panel-body mg10 pd10 bgEEE of_hidden">
+        <form name="demo-form" class="k-form col3">
+            <!-- 第壹列 -->
+            <div class="k-field">
+                <label  class="k-field-label">资产类型:</label>
+                <select class="form-control" name="assets_type">
+                    <option value="1">1 债券</option>
+                    <option value="2">2 其他</option>
+                </select>
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">市场:</label>
+                <select class="form-control" name="market">
+                    <option value="1">1 上交所</option>
+                    <option value="2">2 深交所</option>
+                    <option value="3">3 银行间</option>
+                    <option value="4">4 未上市</option>
+                    <option value="5">5 上交所综合管理平台</option>
+                </select>
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">资产代码:</label> <input type="text"
+                                             class="form-control" name="assets_code" data-max-length="20"
+                                             placeholder="">
+            </div>
+            <button type="button" class="btn btn-primary k-btn ${sysuer:sysRgt('M8a02U01')}" data-param-handler="doSelect" data-descript="查询资产基本信息">查询</button>
+
+            <!-- 第贰列 -->
+            <div class="k-field">
+                <label  class="k-field-label">资产名称:</label> <input type="text"
+                                             class="form-control" name="assets_name"
+                                             data-max-length="50" placeholder="">
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">票面利率/收益率(%):</label> <input type="text" data-validate-type="number" data-digits="4"
+                                                    class="form-control k-field-text" name="issue_rate"
+                                                    data-max-length="30" placeholder="">
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">起息日:</label>
+                <input class="datepicker form-control" type="text" name="begin_date" data-date-format="yyyy-mm-dd" />
+            </div>
+            <button type="button" class="btn btn-default k-btn" data-confirm="true" data-descript="重置" data-functype="RESET" data-after-success="reSetPopup('demo-form_1');">重置</button>
+            <!-- 第叁列 -->
+            <div class="k-field">
+                <label  class="k-field-label">到期日:</label>
+                <input class="datepicker form-control" type="text" name="end_date" data-date-format="yyyy-mm-dd" />
+            </div>
+            <div class="k-field checkbox">
+                <label  class="k-field-label"><input type="checkbox" name="exercise_flag" value="1">是否行权
+                </label>
+            </div>
+            <div class="k-field checkbox"></div>
+            <hr/>
+            <!-- 第肆列 -->
+            <!--<div class="k-field">-->
+                <!--<label  class="k-field-label">结算日期:</label>-->
+                <!--<input class="datepicker form-control" type="text" name="trans_date" data-date-format="yyyy-mm-dd" />-->
+            <!--</div>-->
+            <div class="k-field">
+                <label  class="k-field-label">百元净价(元):</label> <input type="text" data-max-length="18"
+                                                class="form-control k-field-text" name="net_price" data-validate-type="money"
+                                                placeholder="">
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">实际利率(%):</label> <input type="text" data-validate-type="number" data-digits="4"
+                                                data-max-length="30" class="form-control k-field-text" name="real_rate"
+                                                placeholder="">
+            </div>
+            <button type="button" class="btn btn-primary k-btn ${sysuer:sysRgt('M8a02A01')}" data-param-handler="netTorealrate" data-descript="净价实际利率">净价推实际利率</button>
+            <hr/>
+            <!-- 第伍列 -->
+            <div class="k-field">
+                <label  class="k-field-label">上次摊销日期:</label>
+                <input class="datepicker form-control" type="text" name="amor_date" data-date-format="yyyy-mm-dd" />
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >上次百元净价(元):</label> <input type="text" data-validate-type="money"
+                                                  class="form-control k-field-text" name="amor_net" data-max-length="18"
+                                                  placeholder="">
+            </div>
+            <div class="k-field">
+                <label  class="k-field-label">实际利率(%):</label> <input type="text" data-validate-type="number" data-digits="4"
+                                                class="form-control k-field-text" name="real_rate2"
+                                                data-max-length="30" placeholder="">
+            </div>
+            <button type="button" class="btn btn-primary k-btn ${sysuer:sysRgt('M8a02B01')}" data-param-handler="realrateTonet" data-descript="实际利率推净价">实际利率推净价</button>
+            <!-- 第陆列 -->
+            <div class="k-field">
+                <label  class="k-field-label">结算日期:</label>
+                <input class="datepicker form-control" type="text" name="trans_date2" data-date-format="yyyy-mm-dd" />
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >本次净价(元):</label> <input type="text" data-validate-type="money"
+                                                class="form-control k-field-text" name="the_net" data-max-length="18"
+                                                placeholder="">
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</div>
+</div>
+
+
+<div th:include="include :: footer"></div>
+<script>
+
+
+</script>
+</body>
+</html>

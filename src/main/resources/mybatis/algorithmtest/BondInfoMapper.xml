@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kayak.algorithmtest.mapper.BondInfoMapper">
+
+
+    <!--BondInfo对应的字段，并不是数据库中所有字段-->
+    <resultMap type="BondInfo" id="bondInfoResult">
+        <id property="id" column="id" />
+        <result property="bond_id" column="bond_id" />
+        <result property="market_code" column="MARKET_CODE" />
+        <result property="full_name" column="FULL_NAME" />
+        <result property="bond_prop" column="BOND_PROP" />
+        <result property="publish_date" column="PUBLISH_DATE" />
+        <result property="begin_date" column="BEGIN_DATE" />
+        <result property="end_date" column="END_DATE" />
+        <result property="first_pay_date" column="FIRST_PAY_DATE" />
+        <result property="coupon_rate" column="COUPON_RATE" />
+        <result property="base_rate" column="BASE_RATE" />
+        <result property="bond_spread" column="BOND_SPREAD" />
+        <result property="baserate_type" column="BASERATE_TYPE" />
+        <result property="calint_type" column="CALINT_TYPE" />
+        <result property="interest_type" column="INTEREST_TYPE" />
+        <result property="interest_sort" column="INTEREST_SORT" />
+        <result property="pay_freq" column="PAY_FREQ" />
+        <result property="publisher" column="PUBLISHER" />
+        <result property="issue_price" column="ISSUE_PRICE" />
+        <result property="issue_rate" column="ISSUE_RATE" />
+        <result property="issue_volume" column="ISSUE_VOLUME" />
+        <result property="depot" column="DEPOT" />
+        <result property="guarantor" column="GUARANTOR" />
+        <result property="guar_type" column="GUAR_TYPE" />
+        <result property="is_exercise" column="IS_EXERCISE" />
+        <result property="exercise_type" column="EXERCISE_TYPE" />
+        <result property="end_rate" column="END_RATE" />
+        <result property="repayment_type" column="REPAYMENT_TYPE" />
+        <result property="pay_date" column="PAY_DATE" />
+        <result property="bond_baseday" column="bond_baseday" />
+        <result property="data_list" column="data_list" />
+        <result property="fi_code" column="bond_code" />
+        <result property="fi_name" column="bond_name" />
+        <result property="trust_ccy" column="cur" />
+    </resultMap>
+
+    <sql id="selectBondInfoVo">
+
+    </sql>
+
+    <select id="getListByBondIds"  resultMap="bondInfoResult">
+        select * from t8_bond_info where 1=1 and bond_id in <foreach collection="collection" open="(" close=")" separator="," item="bondId" index="index"> #{bondId}</foreach>
+    </select>
+
+    <select id="getBondInfoByBondId"  resultMap="bondInfoResult">
+        select * from t8_bond_info where bond_id=#{bondId}
+    </select>
+
+</mapper>

@@ -1,0 +1,49 @@
+# 开发环境配置
+server:
+  # 服务端口
+  port: 8081
+  servlet:
+    # 项目contextPath
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+
+# MyBatis
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.kayak.algorithmtest.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mybatis/**/*Mapper.xml
+logging:
+  level:
+    com.kayak : debug
+spring:
+  thymeleaf:
+    #是否启用缓存
+    cache: false
+    #建议模板是否存在
+    check-template-location: true
+    #是否启用
+    enabled: true
+    #模板编码
+    encoding: utf-8
+    #模板模式
+    mode: HTML5
+    #模板存放路径
+    prefix: classpath:/templates/
+    #模板后缀
+    suffix: .html
+
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url:  jdbc:oracle:thin:@localhost:1521/orcl
+    username: balance_ny
+    password: balance_ny
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+
+
+

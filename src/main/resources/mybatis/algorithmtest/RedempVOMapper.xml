@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kayak.algorithmtest.mapper.RedempVOMapper">
+
+
+    <!--Exercise对应的字段，并不是数据库中所有字段-->
+    <resultMap type="RedempVO" id="redempVOResult">
+        <id property="id" column="id" />
+        <result property="bond_id" column="bond_id" />
+        <result property="exerciseDate" column="EXERCISE_DATE" />
+        <result property="unitPrincipal" column="UNIT_PRINCIPAL" />
+    </resultMap>
+
+    <select id="getRedempVOListByBondId"  resultMap="redempVOResult">
+        select * from t8_bond_redemp where bond_id = #{bondId} order by exercise_date
+    </select>
+
+</mapper>

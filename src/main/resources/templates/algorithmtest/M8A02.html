@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" href="../project/algorithmtest/css/M8A.css">
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-row tip_bar">资产试算</div>
+        <div class="layui-col-md12">
+            <form name="demo-form" class="layui-form layui-form-pane">
+                <div class="layui-row">
+                    <div style="width: 250px;margin: 5px auto;">
+                        <button type="button" class="layui-btn">查询</button>
+                        <button type="button" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+                <!-- 第一行 -->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4 " pane>
+                        <label class="layui-form-label">资产类型</label>
+                        <div class="layui-input-inline">
+                            <select class="form-control" name="assets_type">
+                                <option value="1" selected>1 债券</option>
+                                <option value="2">2 其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4" pane>
+                        <label class="layui-form-label">市场</label>
+                        <div class="layui-input-inline">
+                            <select name="market">
+                                <option value="1" selected>1 上交所</option>
+                                <option value="2">2 深交所</option>
+                                <option value="3">3 银行间</option>
+                                <option value="4">4 未上市</option>
+                                <option value="5">5 上交所综合管理平台</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">起息日</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="begin_date" class="layui-input time-input"
+                                   placeholder="yyyy-MM-dd"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4" pane>
+                        <label class="layui-form-label">资产代码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="assets_code" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">资产名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="" class="layui-input" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">票面利率/收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="coupon_rate" class="layui-input" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第三行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">到期日</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input time-input" type="text" name="end_date"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">是否行权</label>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" name="exercise_flag" value="1"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row">
+                    <div style="width: 250px;margin: 5px auto;">
+                        <button type="button" class="layui-btn">净价推实际利率</button>
+                        <button type="button" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+                <!-- 第四行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4 ">
+                        <label class="layui-form-label">结算日期</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input time-input" type="text" name="trans_date"  />
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">百元净价</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="net_price" data-max-length="30" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">实际利率(%)</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" type="text" name="real_rate"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row">
+                    <div style="width: 250px;margin: 5px auto;">
+                        <button type="button" class="layui-btn">实际利率推净价</button>
+                        <button type="button" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">上次摊销日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="amor_date" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">上次百元净价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="amor_net" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">实际利率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="real_rate2" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第五行-->
+                <div class="layui-row layui-form-item">
+
+
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">结算日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input time-input" name="trans_date2"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">本次净价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="the_net" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <div id="result">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:include="include :: footer"></div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+
+        form.render();
+    });
+
+</script>
+</body>
+
+
+</html>

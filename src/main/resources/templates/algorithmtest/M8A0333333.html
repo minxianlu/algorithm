@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" href="../project/algorithmtest/css/M8A.css">
+
+</head>
+<body>
+<!--
+<a href="javascript:;" onclick="clearAll();">清理</a>
+<a href="javascript:;" onclick="testAll();">测试</a> -->
+<div class="panel panel-primary mg10">
+    <div class="panel-heading h30 bg00F7DE">买断式回购试算</div>
+    <div class="panel-body mg10 pd10 bgEEE of_hidden">
+        <form name="demo-form" class="k-form col3">
+            <!-- 第壹列 -->
+            <div class="k-field">
+                <label class="k-field-label" >市场:</label>
+                <select class="form-control" name="market">
+                    <option value="1">1 上交所</option>
+                    <option value="2">2 深交所</option>
+                    <option value="3">3 银行间</option>
+                    <option value="4">4 未上市</option>
+                    <option value="5">5 上交所综合管理平台</option>
+                </select>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >债券代码:</label> <input type="text"
+                                             class="form-control" name="assets_code" data-max-length="20"
+                                             placeholder="">
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >债券名称:</label> <input type="text" data-max-length="50"
+                                             class="form-control" name="assets_name"
+                                             placeholder="">
+            </div>
+
+            <button type="button" class="btn btn-primary k-btn  ${sysuer:sysRgt('M8a03U01')}" data-param-handler="doSelect" data-descript="买断式回购试算-查询">查询</button>
+            <!-- 第贰列 -->
+            <div class="k-field">
+                <label class="k-field-label" >首期结算日:</label>
+                <input class="datepicker form-control" type="text" name="first_settle_date" data-date-format="yyyy-mm-dd"/>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >到期结算日:</label>
+                <input class="datepicker form-control" type="text" name="end_settle_date" data-date-format="yyyy-mm-dd" />
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >回购利率（%）:</label> <input type="text" data-max-length="30"
+                                                class="form-control k-field-text" name="back_coup" data-validate-type="number" data-digits="4"
+                                                placeholder="">
+            </div>
+            <button type="button" class="btn btn-primary k-btn  ${sysuer:sysRgt('M8a03A01')}" data-param-handler="doCalculate" data-descript="买断式回购试算-计算">计算</button>
+            <!-- 第叁列 -->
+            <div class="k-field">
+                <label class="k-field-label" >首期净价(元):</label> <input type="text" data-max-length="18"
+                                                class="form-control k-field-text" name="first_netPrice" data-validate-type="money"
+                                                placeholder="">
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >到期净价(元):</label> <input type="text" data-validate-type="money"
+                                                class="form-control k-field-text" name="end_netPrice" data-max-length="18"
+                                                placeholder="">
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >占款天数:</label> <input type="text"
+                                             class="form-control" name="auto_days" data-max-length="30"
+                                             placeholder="" disabled>
+            </div>
+            <button type="button" class="btn btn-default k-btn" data-confirm="true" data-descript="重置" data-functype="RESET" data-after-success="reSetPopup();">重置</button>
+            <hr/>
+            <!-- 第肆列 -->
+            <div class="k-field">
+                <label class="k-field-label" >首期全价(元):</label>
+                <input type="text" class="form-control" name="first_fullPrice" placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >首期应计利息(元):</label> <input type="text"
+                                                  class="form-control" name="first_ai"
+                                                  placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >首期收益率(%):</label> <input type="text"
+                                                 class="form-control" name="first_ytm"
+                                                 placeholder="" disabled>
+            </div>
+            <!-- 第伍列 -->
+            <div class="k-field">
+                <label class="k-field-label" >到期全价(元):</label>
+                <input type="text" class="form-control" name="end_fullPrice" placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >到期应计利息(元):</label> <input type="text"
+                                                  class="form-control" name="end_ai"
+                                                  placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >到期收益率(%):</label> <input type="text"
+                                                 class="form-control" name="end_ytm"
+                                                 placeholder="" disabled>
+            </div>
+            <!-- 第陆列 -->
+            <div class="k-field">
+                <label class="k-field-label" >期间债券利息(元):</label>
+                <input type="text" class="form-control" name="coupon_rate" placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >期间提前还本(元):</label>
+                <input type="text" class="form-control" name="early_repay" placeholder="" disabled>
+            </div>
+            <div class="k-field"></div>
+            <hr/>
+            <!-- 第柒列 -->
+            <div class="k-field">
+                <label class="k-field-label" >回购面额(万元):</label>
+                <input type="text" class="form-control k-field-text" name="bond_total_amt"
+                       data-unit-value="10000" data-validate-type="money" data-max-length="18" placeholder="">
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >首期结算金额(元):</label>
+                <input type="text" class="form-control" name="first_settle_amt" placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >到期结算金额(元):</label>
+                <input type="text" class="form-control" name="end_settle_amt" placeholder="" disabled>
+            </div>
+            <!-- 第捌列 -->
+            <div class="k-field">
+                <label class="k-field-label" >付息金额(元):</label>
+                <input type="text" class="form-control" name="interest_amt" placeholder="" disabled>
+            </div>
+            <div class="k-field">
+                <label class="k-field-label" >还本金额（元）:</label>
+                <input type="text" class="form-control" name="repay_amt" placeholder="" disabled>
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</div>
+</div>
+<div th:include="include :: footer"></div>
+<script>
+
+
+</script>
+</body>
+</html>

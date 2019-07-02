@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kayak.algorithmtest.mapper.CashFlowMapper">
+
+
+    <!--Cashflow对应的字段，并不是数据库中所有字段-->
+    <resultMap type="Cashflow" id="cashFlowResult">
+        <id property="id" column="id" />
+        <!--<result property="bond_id" column="bond_id" />-->
+        <result property="change_id" column="change_id" />
+        <result property="pay_date" column="pay_date" />
+        <result property="start_date" column="start_date" />
+        <result property="coupon_rate" column="coupon_rate" />
+        <result property="amount" column="amount" />
+        <result property="is_change" column="is_change" />
+        <result property="end_money" column="end_money" />
+        <result property="translevel" column="translevel" />
+
+    </resultMap>
+
+    <select id="getCashFlowListByBondId"  resultMap="cashFlowResult">
+        select * from t8_bond_cashflow where bond_id=#{bondId} order by pay_date,change_id
+    </select>
+
+</mapper>

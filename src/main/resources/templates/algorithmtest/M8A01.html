@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" href="../project/algorithmtest/css/M8A.css">
+
+<style>
+    legend{
+        color: red;
+        margin-left: 100px;
+    }
+    .layui-field-title{
+        margin: 2px auto;
+    }
+</style>
+
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-row tip_bar">资产资本信息</div>
+        <div class="layui-col-md12">
+            <form name="demo-form" class="layui-form layui-form-pane" id="bondInfo" lay-filter="bondInfo">
+                <div class="layui-row">
+                    <div style="width: 250px;margin: 5px auto;">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="bondInfoSelect">查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+                <!-- 第一行 -->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4 " pane>
+                        <label class="layui-form-label required">资产类型</label>
+                        <div class="layui-input-inline">
+                            <select name="assets_type"lay-verify="required" >
+                                <option value="1">1 债券</option>
+                                <option value="2">2 其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4" pane>
+                        <label class="layui-form-label required" >市场</label>
+                        <div class="layui-input-inline">
+                            <select name="market" lay-verify="required">
+                                <option value="1">1 上交所</option>
+                                <option value="2">2 深交所</option>
+                                <option value="3">3 银行间</option>
+                                <option value="4">4 未上市</option>
+                                <option value="5">5 上交所综合管理平台</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="layui-col-md4" pane>
+                        <label class="layui-form-label required">资产代码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="assets_code" lay-verify="required" placeholder="">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">资产名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="assets_name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">票面利率/收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="coupon_rate" class="layui-input" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">起息日</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="begin_date" class="layui-input time-input"
+                                   placeholder="yyyy-mm-dd"/>
+                        </div>
+                    </div>
+                </div>
+                <!-- 第三行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">到期日</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input time-input" type="text" name="end_date"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4 ">
+                        <label class="layui-form-label">付息频率</label>
+                        <div class="layui-input-inline">
+                            <!--<input type="text" name="pay_freq" class="layui-input"  placeholder="">-->
+                            <select name="pay_freq">
+                                <option value="1">1 按月支付</option>
+                                <option value="2">2 按季支付</option>
+                                <option value="3">3 半年支付</option>
+                                <option value="4">4 按年支付</option>
+                                <option value="5">5 到期支付</option>
+                                <option value="6">6 自定义</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">是否行权</label>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" name="is_exercise" lay-filter="is_exercise" value="1"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4 layui-hide">
+                        <label class="layui-form-label">首次付息日</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="first_pay_date" id="first_pay_date" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                    </div>
+                    <div class="layui-col-md4">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="layui-row tip_bar">资产试算</div>
+        <div class="layui-col-md12">
+            <form name="demo-form" class="layui-form layui-form-pane" id="assetsCalc" lay-filter="assetsCalc">
+                <div class="layui-row">
+                    <div style="width: 250px;margin: 5px auto;">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="assetsCalculate">资产试算</button>
+                    </div>
+                </div>
+                <!-- 第四行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">结算日期</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input time-input" type="text" name="settle_date"
+                                   data-date-format="yyyy-mm-dd"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">百元净价</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="net_price"  placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">应计利息</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="accrued_interest"
+                                   placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第五行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">百元全价</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="full_price"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">到期收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="end_rate" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">行权收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input layui-disabled" name="exercise_rate" disabled="disabled" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第六行-->
+                <hr class="layui-bg-green">
+
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">交易面额(万元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="trans_amt" placeholder=""
+                                  data-validate-type="money">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">结算金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="settle_amt"
+                                   data-validate-type="money" placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">应计利息总额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="total_interest"
+                                   data-validate-type="money" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <hr class="layui-bg-green">
+                <!-- 第七行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">久期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="duration"  placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">修正久期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="mod_duration"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">凸性</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="convexity" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第八行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4 ">
+                        <label class="layui-form-label">利差久期</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="spreads_period"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4 ">
+                        <label class="layui-form-label">利差凸性</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="spreads_convexity"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">PVBP</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="PVBP" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第九行-->
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">剩余年限</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="remain_fixed"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                </div>
+            </form>
+            <div id="result">
+
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-row tip_bar">
+            持有期收益试算
+        </div>
+        <div class="layui-col-md12">
+            <form name="demo1-form" class="layui-form layui-form-pane" id="holdingPeriodIncome" lay-filter="holdingPeriodIncome">
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label required">面额(万元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="trans_amtc" class="layui-input" lay-verify="required" />
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>买入</legend>
+                </fieldset>
+                <div class="layui-row">
+                    <div style="width: 200px;margin: 5px auto;">
+                        <button type="button" class="layui-btn"lay-submit  lay-filter="buyCalculate" >买入计算</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">买入日期</label>
+                        <div class="layui-input-inline">
+                            <input name="in_date" class="layui-input time-input" type="text" placeholder="yyy-mm-dd"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">净价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="in_net_price"
+
+                                   placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">全价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="in_full_price" placeholder=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">到期收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  class="layui-input" name="in_rate" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">买入费用(元)</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" type="text" name="in_cost"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">净价金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" type="text" name="in_net_cost"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-form-item">
+
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">全价金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="in_full_cost" placeholder=""/>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md4">
+
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>卖出</legend>
+                </fieldset>
+                <div style="width: 200px;margin: 5px auto;">
+                    <button type="button" class="layui-btn" lay-submit  lay-filter="sellCalculate" >卖出计算</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+                <div class="layui-row layui-form-item">
+
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">卖出日期</label>
+                        <div class="layui-input-inline">
+                            <input name="out_date" class="layui-input time-input" type="text" placeholder="yyyy-mm-dd"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">净价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="out_net_price" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">全价(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="out_full_price" placeholder=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">到期收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input"  name="out_rate" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">卖出费用(元)</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" type="text" name="out_cost"/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">净价金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input class="layui-input" type="text" name="out_net_cost"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">全价金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="out_full_cost" placeholder=""/></div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">中间收息(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="center_income" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+
+                    </div>
+                </div>
+
+
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>我是分割线</legend>
+                </fieldset>
+                <div style="width: 200px;margin: 5px auto;">
+                    <button type="button" class="layui-btn" lay-submit  lay-filter="otherCalculate">其他计算</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">持有期收益率(%)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="holding_rate"
+                                   placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">利息收入(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="interest_income" placeholder=""/></div>
+                    </div>
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">价差收入(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="margin_income" placeholder=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-md4">
+                        <label class="layui-form-label">总收益(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="total_income" placeholder=""/></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script src="../project/algorithmtest/js/M8A01.js"></script>
+</body>
+
+
+</html>

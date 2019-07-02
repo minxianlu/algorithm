@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kayak.algorithmtest.mapper.ExerciseMapper">
+
+
+    <!--Exercise对应的字段，并不是数据库中所有字段-->
+    <resultMap type="Exercise" id="exerciseResult">
+        <id property="id" column="id" />
+        <result property="bond_id" column="bond_id" />
+        <result property="exercise_date" column="exercise_date" />
+        <result property="coupon_rate" column="coupon_rate" />
+        <result property="inputuser" column="inputuser" />
+        <result property="is_rate" column="is_rate" />
+    </resultMap>
+
+    <select id="getExerciseListByBondId"  resultMap="exerciseResult">
+        select * from t8_bond_exercise where BOND_ID=#{bondId}  order by exercise_date
+    </select>
+
+</mapper>

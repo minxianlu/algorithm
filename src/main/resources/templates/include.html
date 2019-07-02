@@ -1,0 +1,32 @@
+<head th:fragment="header">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="favicon.ico">
+	<!--<link th:href="@{/libs/bootstrap/css/bootstrap.css}" rel="stylesheet"/>-->
+	<link th:href="@{/libs/layui/css/layui.css}" rel="stylesheet"/>
+
+	<style>
+		.required::before{
+			content: '*';
+			font-weight: bold;
+			color: red;
+		}
+	</style>
+</head>
+<div th:fragment="footer">
+	<script th:src="@{/libs/jquery-3.0.0.min.js}"></script>
+	<script th:src="@{/libs/bootstrap/js/bootstrap.js}"></script>
+
+	<!-- 遮罩层 -->
+	<script th:src="@{/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/libs/iCheck/icheck.min.js}"></script>
+	<script th:src="@{/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/libs/layui/layui.js}"></script>
+	<script th:src="@{/common/common.js?v=3.2.0}"></script>
+
+	<script src="http://tajs.qq.com/stats?sId=62048022"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</div>

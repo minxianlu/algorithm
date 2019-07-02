@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" href="../project/algorithmtest/css/M8A.css">
+
+</head>
+<body>
+<div class="k-page">
+    <div class="panel " align="center">
+        <div class="panel">
+            <div class="panel-heading h30 bg00F7DE">文件解析</div>
+            <div class="panel-body mg10">
+                <button type="button" class="layui-btn" id="fileUpload"><i class="layui-icon"></i>上传文件</button>
+            </div>
+        </div>
+        <div>
+            <label>日志面板</label>
+            <textarea rows="26" cols="130"></textarea>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script>
+    //JavaScript代码区域
+    layui.use('upload', function(){
+        var upload = layui.upload;
+
+        upload.render({
+            elem: '#fileUpload'
+            ,url: '/M8A04/fileUpload'
+            ,accept: 'file'
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
